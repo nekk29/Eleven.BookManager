@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:converters="clr-namespace:Eleven.BookManager.App.Converters"
+             xmlns:local="clr-namespace:Eleven.BookManager.App.ViewModels.Settings"
+             x:Class="Eleven.BookManager.App.Pages.SettingsPage"
+             Loaded="ContentPage_Loaded">
+
+    <ContentPage.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+
+        <Style TargetType="Entry" x:Key="EntryLocation">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="Opacity" Value="0.75" />
+        </Style>
+
+        <Style TargetType="Entry" x:Key="EntryInvalid">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="BackgroundColor"  Value="#890104" />
+            <Setter Property="Opacity"  Value="0.2" />
+        </Style>
+
+        <Style TargetType="Entry" x:Key="EntryValid">
+            <Setter Property="BackgroundColor"  Value="Transparent" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <local:SettingsPageViewModel x:Name="ViewModel" />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout>
+
+            <VerticalStackLayout Padding="30,0" Spacing="25">
+
+                <VerticalStackLayout>
+
+                    <Label
+                        Text="Library Settings"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Style="{StaticResource HeadlineSmall}"/>
+
+                    <FlexLayout
+                        Direction="Row"
+                        HeightRequest="48"
+                        AlignItems="Center">
+                        <Label
+                            Text="Application data location"
+                            MinimumWidthRequest="160"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+
+                        <Entry
+                            x:Name="AppOptionsWorkingDirectoryEntry"
+                            IsEnabled="False"
+                            Text="{Binding AppOptions.WorkingDirectory}"
+                            Style="{StaticResource EntryLocation}"
+                            MinimumWidthRequest="600"
+                            HorizontalOptions="Start"
+                            Margin="10,0,0,0" />
+
+                        <Button
+                            x:Name="SelectDataLocationButton"
+                            Text="Select Folder"
+                            Clicked="SelectDataLocationButton_Clicked"
+                            Style="{StaticResource SmallButtonSecondary}"
+                            HorizontalOptions="Center"
+                            Margin="10,0,0,0" />
+                    </FlexLayout>
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Padding="30,0" Spacing="25">
+
+                <VerticalStackLayout Margin="0,25,0,0">
+
+                    <Label
+                        Text="Calibre Settings"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Style="{StaticResource HeadlineSmall}"/>
+
+                    <FlexLayout
+                        Direction="Row"
+                        HeightRequest="48"
+                        AlignItems="Center">
+                        <Label
+                            Text="Calibre library location"
+                            MinimumWidthRequest="160"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+
+                        <Entry
+                            x:Name="CalibreOptionsLibraryDirectoryEntry"
+                            IsEnabled="False"
+                            Text="{Binding CalibreOptions.LibraryDirectory}"
+                            Style="{StaticResource EntryLocation}"
+                            MinimumWidthRequest="600"
+                            HorizontalOptions="Start"
+                            Margin="10,0,0,0" />
+
+                        <Button
+                            x:Name="SelectCalibreLocationButton"
+                            Text="Select Folder"
+                            Clicked="SelectCalibreLocationButton_Clicked"
+                            Style="{StaticResource SmallButtonSecondary}"
+                            HorizontalOptions="Center"
+                            Margin="10,0,0,0" />
+                    </FlexLayout>
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Padding="30,0" Spacing="25" IsVisible="{Binding AppOptions.IsConfigured}">
+
+                <VerticalStackLayout Margin="0,25,0,0">
+
+                    <Label
+                        Text="Amazon Settings"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Style="{StaticResource HeadlineSmall}"/>
+
+                    <FlexLayout
+                        Direction="Row"
+                        HeightRequest="48"
+                        AlignItems="Center">
+                        <Label
+                            Text="Email account to send"
+                            MinimumWidthRequest="160"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+
+                        <Entry
+                            x:Name="AmazonOptionsAccountEmailEntry"
+                            Text="{Binding AmazonOptions.AccountEmail}"
+                            MaxLength="256"
+                            MinimumWidthRequest="710"
+                            HorizontalOptions="Start"
+                            Margin="10,0,0,0" />
+                    </FlexLayout>
+
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Margin="0,25,0,0">
+
+                    <Label
+                        Text="Email Settings"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Style="{StaticResource HeadlineSmall}"/>
+
+                    <HorizontalStackLayout>
+                        <Label
+                            Text="Smtp Server"
+                            MinimumWidthRequest="170"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+
+                        <Entry
+                            x:Name="SmtpOptionsServerEntry"
+                            Text="{Binding SmtpOptions.Server}"
+                            MaxLength="256"
+                            MinimumWidthRequest="200"
+                            MaximumWidthRequest="200"
+                            HorizontalOptions="Start"
+                            Margin="10,0,0,0" />
+
+                        <Label
+                            Text="Email"
+                            MinimumWidthRequest="150"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            Margin="60,0,0,0" />
+
+                        <Entry
+                            x:Name="SmtpOptionsEmailEntry"
+                            Text="{Binding SmtpOptions.Email}"
+                            MaxLength="256"
+                            MinimumWidthRequest="290"
+                            MaximumWidthRequest="290"
+                            HorizontalOptions="Start"
+                            Margin="10,0,0,0" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Margin="0,20,0,0">
+                        <Label
+                            Text="Smtp Port"
+                            MinimumWidthRequest="170"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+
+                        <Entry
+                            x:Name="SmtpOptionsPortEntry"
+                            Text="{Binding SmtpOptions.Port}"
+                            MaxLength="6"
+                            TextChanged="PortEntry_TextChanged"
+                            MinimumWidthRequest="200"
+                            MaximumWidthRequest="200"
+                            HorizontalOptions="Start"
+                            Keyboard="Numeric"
+                            Margin="10,0,0,0" />
+
+                        <Label
+                            Text="Password"
+                            MinimumWidthRequest="150"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            Margin="60,0,0,0" />
+
+                        <Entry
+                            x:Name="SmtpOptionsPasswordEntry"
+                            Text="{Binding SmtpOptions.Password}"
+                            IsPassword="true"
+                            MaxLength="64"
+                            MinimumWidthRequest="290"
+                            MaximumWidthRequest="290"
+                            HorizontalOptions="Start"
+                            Margin="10,0,0,0" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Margin="0,20,0,0">
+                        <Label
+                            Text="Display Name"
+                            MinimumWidthRequest="170"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+
+                        <Entry
+                            x:Name="SmtpOptionsFromDisplayNameEntry"
+                            Text="{Binding SmtpOptions.FromDisplayName}"
+                            MaxLength="32"
+                            MinimumWidthRequest="200"
+                            MaximumWidthRequest="200"
+                            HorizontalOptions="Start"
+                            Margin="10,0,0,0" />
+
+                        <Label
+                            Text="Confirm Password"
+                            MinimumWidthRequest="150"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            Margin="60,0,0,0" />
+
+                        <Entry
+                            x:Name="SmtpOptionsConfirmPasswordEntry"
+                            Text="{Binding SmtpOptions.ConfirmPassword}"
+                            IsPassword="true"
+                            MaxLength="64"
+                            MinimumWidthRequest="290"
+                            MaximumWidthRequest="290"
+                            HorizontalOptions="Start"
+                            Margin="10,0,0,0" />
+
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Padding="30,0" Margin="0,30,0,0" MaximumWidthRequest="920" MinimumWidthRequest="920" HorizontalOptions="Start">
+                <Button
+                    Text="Save Configuration"
+                    Style="{StaticResource SmallButtonSuccess}"
+                    Clicked="Button_Clicked"
+                    HorizontalOptions="End" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>
