@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:converters="clr-namespace:Eleven.BookManager.App.Converters"
+             xmlns:local="clr-namespace:Eleven.BookManager.App.ViewModels.MainPage"
+             x:Class="Eleven.BookManager.App.Pages.MainPage"
+             Loaded="ContentPage_Loaded">
+
+    <ContentPage.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <local:MainPageViewModel x:Name="ViewModel" />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+
+            <FlexLayout
+                Direction="Row"
+                HeightRequest="48"
+                AlignItems="Center"
+                JustifyContent="SpaceBetween">
+
+                <HorizontalStackLayout>
+                    <Image
+                        Source="library.png"
+                        HeightRequest="48"
+                        Aspect="AspectFit"
+                        Margin="0" />
+
+                    <Label
+                        Text="My Library"
+                        Style="{StaticResource SubHeadline}"
+                        VerticalTextAlignment="Center"
+                        Margin="15,0,0,0" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout>
+                    <ProgressBar
+                        Progress="{Binding SyncProgress}"
+                        ProgressColor="{StaticResource SecondaryDarkText}"
+                        IsVisible="{Binding IsSyncing}"
+                        WidthRequest="150" />
+
+                    <Label
+                        Text="{Binding SyncProgressPerc, StringFormat='Syncing: {0:00.00}%'}"
+                        IsVisible="{Binding IsSyncing}"
+                        VerticalTextAlignment="Center"
+                        Margin="15,0,0,0" />
+
+                    <Button
+                        x:Name="SyncLibraryBtn"
+                        Text="Sync From Calibre"
+                        Style="{StaticResource SmallButton}"
+                        IsEnabled="{Binding Path=IsBusy, Converter={StaticResource InverseBooleanConverter}}"
+                        Command="{Binding SyncLibraryCommand}"
+                        HorizontalOptions="Fill"
+                        Margin="15,0,0,0" />
+                </HorizontalStackLayout>
+
+            </FlexLayout>
+
+            <FlexLayout
+                Direction="Row"
+                HeightRequest="48"
+                AlignItems="Center">
+
+                <SearchBar
+                    x:Name="SearchBar"
+                    MinimumWidthRequest="350"
+                    Placeholder="Search authors or book titles"
+                    TextChanged="SearchBar_TextChanged">
+                </SearchBar>
+
+                <HorizontalStackLayout Margin="15,0,0,0">
+                    <HorizontalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnlyUnsent_Tapped"/>
+                    </HorizontalStackLayout.GestureRecognizers>
+
+                    <CheckBox
+                        x:Name="OnlyUnsentCheckBox"
+                        IsChecked="{Binding OnlyUnsent}"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Text="Only Unsent"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Margin="15,0,0,0">
+                    <HorizontalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ShowRecent_Tapped"/>
+                    </HorizontalStackLayout.GestureRecognizers>
+
+                    <CheckBox
+                        x:Name="ShowRecentCheckBox"
+                        IsChecked="{Binding ShowRecent}"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Text="Show Recent"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <ActivityIndicator
+                        IsVisible="{Binding IsSearching}"
+                        IsRunning="{Binding IsSearching}"
+                        Color="{StaticResource SecondaryDarkText}"
+                        Margin="20,0,0,0" />
+
+            </FlexLayout>
+
+            <material:TreeView x:Name="LibraryTree" ItemsSource="{Binding Library}">
+                <material:TreeView.ExpanderTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout
+                            VerticalOptions="Center">
+                            <HorizontalStackLayout
+                                IsVisible="{Binding IsAuthor, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
+                                VerticalOptions="Center">
+                                <ImageButton
+                                    IsVisible="{Binding LetterIconIsVisible, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
+                                    Source="{Binding LetterIcon, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
+                                    Style="{StaticResource ImageButtonLetter}"
+                                    HeightRequest="24"
+                                    Aspect="AspectFit" />
+                                <ImageButton
+                                    IsVisible="{Binding LetterIconIsVisible, Converter={StaticResource InverseBooleanConverter}, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
+                                    Style="{StaticResource ImageButtonLetterTransparent}"
+                                    HeightRequest="24"
+                                    Aspect="AspectFit" />
+                                <ImageButton
+                                    Source="collapse.png"
+                                    IsVisible="{Binding IsExpanded, Converter={StaticResource InverseBooleanConverter}}"
+                                    Command="{Binding ToogleNodeCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    HeightRequest="24"
+                                    Aspect="AspectFit"
+                                    Padding="8" />
+                                <ImageButton
+                                    Source="expand.png"
+                                    IsVisible="{Binding IsExpanded}"
+                                    Command="{Binding ToogleNodeCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    HeightRequest="24"
+                                    Aspect="AspectFit"
+                                    Padding="8" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout
+                                IsVisible="{Binding IsBook, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
+                                VerticalOptions="Center">
+                                <ImageButton
+                                    WidthRequest="60"
+                                    Aspect="AspectFit" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </material:TreeView.ExpanderTemplate>
+                <material:TreeView.ItemTemplate>
+                    <DataTemplate>
+                        <FlexLayout
+                            Direction="Row"
+                            HeightRequest="48"
+                            AlignItems="Center"
+                            JustifyContent="SpaceBetween"
+                            BackgroundColor="{Binding RowColor}">
+
+                            <Grid RowSpacing="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0">
+                                    <Image
+                                        Source="{Binding ImageIcon}"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center"
+                                        HeightRequest="24"
+                                        WidthRequest="24" />
+                                </Grid>
+                                <Grid Grid.Column="1">
+                                    <Label
+                                        Text="{Binding Text}"
+                                        LineBreakMode="NoWrap"
+                                        VerticalTextAlignment="Center">
+                                    </Label>
+                                </Grid>
+                            </Grid>
+
+                            <Grid RowSpacing="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="85" />
+                                    <ColumnDefinition Width="145" />
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="135" />
+                                    <ColumnDefinition Width="80" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    Grid.Column="0"
+                                    Text="{Binding SendProgressText}"
+                                    IsVisible="{Binding IsSendingAuthor}"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="End" />
+
+                                <Label
+                                    Grid.Column="1"
+                                    Text="{Binding SendProgressPerc, StringFormat='({0:00.00}%)'}"
+                                    IsVisible="{Binding IsSendingAuthor}"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="End"
+                                    Margin="10,0,10,0" />
+
+                                <ProgressBar
+                                    Grid.Column="2"
+                                    Progress="{Binding SendProgress}"
+                                    ProgressColor="{StaticResource SecondaryDarkText}"
+                                    IsVisible="{Binding IsSendingAuthor}"
+                                    HorizontalOptions="Fill"
+                                    Margin="10,0,0,0" />
+
+                                <Button
+                                    Grid.Column="2"
+                                    Text="{Binding MarkPendingText}"
+                                    IsVisible="{Binding MarkPendingIsVisible}"
+                                    IsEnabled="{Binding MarkPendingIsEnabled}"
+                                    Command="{Binding MarkAsPendingCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    Style="{StaticResource SmallButtonSecondary}"
+                                    HorizontalOptions="Fill"
+                                    Margin="10,0,0,0" />
+
+                                <ActivityIndicator
+                                    Grid.Column="3"
+                                    IsVisible="{Binding IsSendingBook}"
+                                    IsRunning="{Binding IsSendingBook}"
+                                    Color="{StaticResource SecondaryDarkText}"/>
+
+                                <Image
+                                    Grid.Column="3"
+                                    Source="{Binding SentIcon}"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    HeightRequest="24"
+                                    WidthRequest="24" />
+
+                                <Button
+                                    Grid.Column="4"
+                                    Text="Send"
+                                    IsVisible="{Binding SendIsVisible}"
+                                    IsEnabled="{Binding SendIsEnabled}"
+                                    Command="{Binding SendUsingEmailCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    Style="{StaticResource SmallButtonSuccess}"
+                                    HorizontalOptions="Fill"
+                                    Margin="10,0,0,0" />
+
+                                <Button
+                                    Grid.Column="5"
+                                    Text="{Binding MarkSentText}"
+                                    IsVisible="{Binding MarkSentIsVisible}"
+                                    IsEnabled="{Binding MarkSentIsEnabled}"
+                                    Command="{Binding MarkAsSentCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    Style="{StaticResource SmallButtonSecondary}"
+                                    HorizontalOptions="Fill"
+                                    Margin="10,0,0,0" />
+
+                                <Button
+                                    Grid.Column="6"
+                                    Text="{Binding DeleteText}"
+                                    IsVisible="{Binding DeleteIsVisible}"
+                                    IsEnabled="{Binding DeleteIsEnabled}"
+                                    Command="{Binding DeleteBookCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    Style="{StaticResource SmallButtonDanger}"
+                                    HorizontalOptions="Fill"
+                                    Margin="10,0,0,0" />
+                            </Grid>
+
+                        </FlexLayout>
+                    </DataTemplate>
+                </material:TreeView.ItemTemplate>
+            </material:TreeView>
+
+            <FlexLayout
+                Direction="Row"
+                HeightRequest="48"
+                AlignItems="Center"
+                JustifyContent="SpaceBetween">
+
+                <Label
+                    Text=""
+                    IsVisible="{Binding PaginatorIsVisible, Converter={StaticResource InverseBooleanConverter}}"
+                    VerticalTextAlignment="Center" />
+
+                <material:Paginator
+                    x:Name="MainPaginator"
+                    CurrentPage="{Binding CurrentPage}"
+                    TotalPageCount="{Binding TotalPageCount}"
+                    IsVisible="{Binding PaginatorIsVisible}"
+                    ChangePageCommand="{Binding ChangePageCommand}"
+                    IsEnabled="{Binding Path=IsBusy, Converter={StaticResource InverseBooleanConverter}}"
+                    HorizontalOptions="Center" />
+
+                <Label
+                    Text="{Binding TotalCountText}"
+                    VerticalTextAlignment="Center" />
+
+            </FlexLayout>
+
+        </VerticalStackLayout>
+        
+    </ScrollView>
+
+</ContentPage>

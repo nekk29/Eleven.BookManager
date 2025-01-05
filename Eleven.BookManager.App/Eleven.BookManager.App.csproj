@@ -1,0 +1,173 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net9.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
+
+		<!-- Note for MacCatalyst:
+		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
+		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+
+		<OutputType>Exe</OutputType>
+		<RootNamespace>Eleven.BookManager.App</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<!-- Display name -->
+		<ApplicationTitle>Eleven.BookManager.App</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.eleven.bookmanager.app</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
+		<WindowsPackageType>None</WindowsPackageType>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
+		<MauiImage Include="Resources\Images\Actions\checked.png" />
+		<MauiImage Include="Resources\Images\Actions\collapse.png" />
+		<MauiImage Include="Resources\Images\Actions\error.png" />
+		<MauiImage Include="Resources\Images\Actions\exclamation.png" />
+		<MauiImage Include="Resources\Images\Actions\expand.png" />
+		<MauiImage Include="Resources\Images\Actions\warning.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_a.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_b.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_c.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_d.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_e.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_f.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_g.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_h.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_i.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_j.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_k.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_l.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_m.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_n.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_o.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_p.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_q.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_r.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_s.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_t.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_u.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_v.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_w.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_x.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_y.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter_z.png" />
+		<MauiImage Include="Resources\Images\Alphabet\letter__symbol.png" />
+		<MauiImage Include="Resources\Images\Library\author.png" />
+		<MauiImage Include="Resources\Images\Library\book.png" />
+		<MauiImage Include="Resources\Images\Library\epub.png" />
+		<MauiImage Include="Resources\Images\Library\icon.png" />
+		<MauiImage Include="Resources\Images\Library\library.png" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\Images\Actions\checked.png" />
+	  <None Remove="Resources\Images\Actions\collapse.png" />
+	  <None Remove="Resources\Images\Actions\error.png" />
+	  <None Remove="Resources\Images\Actions\exclamation.png" />
+	  <None Remove="Resources\Images\Actions\expand.png" />
+	  <None Remove="Resources\Images\Actions\warning.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_a.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_b.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_c.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_d.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_e.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_f.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_g.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_h.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_i.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_j.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_k.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_l.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_m.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_n.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_o.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_p.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_q.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_r.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_s.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_t.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_u.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_v.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_w.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_x.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_y.png" />
+	  <None Remove="Resources\Images\Alphabet\letter_z.png" />
+	  <None Remove="Resources\Images\Alphabet\letter__symbol.png" />
+	  <None Remove="Resources\Images\Library\author.png" />
+	  <None Remove="Resources\Images\Library\book.png" />
+	  <None Remove="Resources\Images\Library\epub.png" />
+	  <None Remove="Resources\Images\Library\icon.png" />
+	  <None Remove="Resources\Images\Library\library.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.21" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="UraniumUI.Material" Version="2.11.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Eleven.BookManager.Business\Eleven.BookManager.Business.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Pages\SettingsPage.xaml.cs">
+	    <DependentUpon>SettingsPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\SettingsPage.xaml">
+	    <Generator></Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Resources\Images\icon.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+</Project>
