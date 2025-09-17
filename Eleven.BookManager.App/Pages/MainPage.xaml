@@ -109,216 +109,217 @@
                 </HorizontalStackLayout>
 
                 <ActivityIndicator
-                        IsVisible="{Binding IsSearching}"
-                        IsRunning="{Binding IsSearching}"
-                        Color="{StaticResource SecondaryDarkText}"
-                        Margin="20,0,0,0" />
+                    IsVisible="{Binding IsSearching}"
+                    IsRunning="{Binding IsSearching}"
+                    Color="{StaticResource SecondaryDarkText}"
+                    Margin="20,0,0,0" />
 
             </FlexLayout>
 
-            <material:TreeView x:Name="LibraryTree" ItemsSource="{Binding Library}">
-                <material:TreeView.ExpanderTemplate>
-                    <DataTemplate>
-                        <VerticalStackLayout
-                            VerticalOptions="Center">
-                            <HorizontalStackLayout
-                                IsVisible="{Binding IsAuthor, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
-                                VerticalOptions="Center">
-                                <ImageButton
-                                    IsVisible="{Binding LetterIconIsVisible, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
-                                    Source="{Binding LetterIcon, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
-                                    Style="{StaticResource ImageButtonLetter}"
-                                    HeightRequest="24"
-                                    Aspect="AspectFit" />
-                                <ImageButton
-                                    IsVisible="{Binding LetterIconIsVisible, Converter={StaticResource InverseBooleanConverter}, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
-                                    Style="{StaticResource ImageButtonLetterTransparent}"
-                                    HeightRequest="24"
-                                    Aspect="AspectFit" />
-                                <ImageButton
-                                    Source="collapse.png"
-                                    IsVisible="{Binding IsExpanded, Converter={StaticResource InverseBooleanConverter}}"
-                                    Command="{Binding ToogleNodeCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    HeightRequest="24"
-                                    Aspect="AspectFit"
-                                    Padding="8" />
-                                <ImageButton
-                                    Source="expand.png"
-                                    IsVisible="{Binding IsExpanded}"
-                                    Command="{Binding ToogleNodeCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    HeightRequest="24"
-                                    Aspect="AspectFit"
-                                    Padding="8" />
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout
-                                IsVisible="{Binding IsBook, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
-                                VerticalOptions="Center">
-                                <ImageButton
-                                    WidthRequest="60"
-                                    Aspect="AspectFit" />
-                            </HorizontalStackLayout>
-                        </VerticalStackLayout>
-                    </DataTemplate>
-                </material:TreeView.ExpanderTemplate>
-                <material:TreeView.ItemTemplate>
-                    <DataTemplate>
-                        <FlexLayout
-                            Direction="Row"
-                            HeightRequest="48"
-                            AlignItems="Center"
-                            JustifyContent="SpaceBetween"
-                            BackgroundColor="{Binding RowColor}">
+            <Grid ColumnDefinitions="82*, 18*">
 
-                            <Grid RowSpacing="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0">
-                                    <Image
+                <VerticalStackLayout
+                    Padding="0,0,30,0"
+                    Spacing="25"
+                    Grid.Column="0">
+
+                    <material:TreeView x:Name="LibraryTree" ItemsSource="{Binding Library}">
+                        <material:TreeView.ExpanderTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout
+                                    VerticalOptions="Center">
+                                    <HorizontalStackLayout
+                                        IsVisible="{Binding IsAuthor, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
+                                        VerticalOptions="Center">
+                                        <ImageButton
+                                            IsVisible="{Binding LetterIconIsVisible, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
+                                            Source="{Binding LetterIcon, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
+                                            Style="{StaticResource ImageButtonLetter}"
+                                            HeightRequest="24"
+                                            Aspect="AspectFit" />
+                                        <ImageButton
+                                            IsVisible="{Binding LetterIconIsVisible, Converter={StaticResource InverseBooleanConverter}, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
+                                            Style="{StaticResource ImageButtonLetterTransparent}"
+                                            HeightRequest="24"
+                                            Aspect="AspectFit" />
+                                        <ImageButton
+                                            Source="collapse.png"
+                                            IsVisible="{Binding IsExpanded, Converter={StaticResource InverseBooleanConverter}}"
+                                            Command="{Binding ToogleNodeCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                            CommandParameter="{Binding .}"
+                                            HeightRequest="24"
+                                            Aspect="AspectFit"
+                                            Padding="8" />
+                                        <ImageButton
+                                            Source="expand.png"
+                                            IsVisible="{Binding IsExpanded}"
+                                            Command="{Binding ToogleNodeCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                            CommandParameter="{Binding .}"
+                                            HeightRequest="24"
+                                            Aspect="AspectFit"
+                                            Padding="8" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout
+                                        IsVisible="{Binding IsBook, Source={RelativeSource AncestorType={x:Type local:LibraryViewModel}}}"
+                                        VerticalOptions="Center">
+                                        <ImageButton
+                                            WidthRequest="52"
+                                            Aspect="AspectFit" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </material:TreeView.ExpanderTemplate>
+                        <material:TreeView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="48, 7*, 3*, 48, 140, 48, 80, 120, 80">
+                                    <ImageButton
+                                        Grid.Column="0"
                                         Source="{Binding ImageIcon}"
+                                        Command="{Binding ViewBookCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="24"
+                                        Aspect="AspectFit"
+                                        Padding="8" />
+
+                                    <Label
+                                        Grid.Column="1"
+                                        LineBreakMode="NoWrap"
+                                        Text="{Binding Text}"
+                                        VerticalTextAlignment="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                NumberOfTapsRequired="1"
+                                                CommandParameter="{Binding .}"
+                                                Command="{Binding ViewBookCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+
+                                    <Label
+                                        Grid.Column="2"
+                                        LineBreakMode="NoWrap"
+                                        Text="{Binding SendProgressText}"
+                                        IsVisible="{Binding IsSendingAuthor}"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="End" />
+
+                                    <ActivityIndicator
+                                        Grid.Column="3"
+                                        IsVisible="{Binding IsSendingBook}"
+                                        IsRunning="{Binding IsSendingBook}"
+                                        Color="{StaticResource SecondaryDarkText}"/>
+
+                                    <Button
+                                        Grid.Column="4"
+                                        Text="{Binding MarkPendingText}"
+                                        IsVisible="{Binding MarkPendingIsVisible}"
+                                        IsEnabled="{Binding MarkPendingIsEnabled}"
+                                        Command="{Binding MarkAsPendingCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        Style="{StaticResource SmallButtonSecondary}"
+                                        HorizontalOptions="Fill"
+                                        Margin="10,0,0,0" />
+
+                                    <Image
+                                        Grid.Column="5"
+                                        Source="{Binding SentIcon}"
                                         VerticalOptions="Center"
                                         HorizontalOptions="Center"
                                         HeightRequest="24"
                                         WidthRequest="24" />
+
+                                    <Button
+                                        Grid.Column="6"
+                                        Text="Send"
+                                        IsVisible="{Binding SendIsVisible}"
+                                        IsEnabled="{Binding SendIsEnabled}"
+                                        Command="{Binding SendUsingEmailCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        Style="{StaticResource SmallButtonSuccess}"
+                                        HorizontalOptions="Fill"
+                                        Margin="10,0,0,0" />
+
+                                    <Button
+                                        Grid.Column="7"
+                                        Text="{Binding MarkSentText}"
+                                        IsVisible="{Binding MarkSentIsVisible}"
+                                        IsEnabled="{Binding MarkSentIsEnabled}"
+                                        Command="{Binding MarkAsSentCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        Style="{StaticResource SmallButtonSecondary}"
+                                        HorizontalOptions="Fill"
+                                        Margin="10,0,0,0" />
+
+                                    <Button
+                                        Grid.Column="8"
+                                        Text="{Binding DeleteText}"
+                                        IsVisible="{Binding DeleteIsVisible}"
+                                        IsEnabled="{Binding DeleteIsEnabled}"
+                                        Command="{Binding DeleteBookCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        Style="{StaticResource SmallButtonDanger}"
+                                        HorizontalOptions="Fill"
+                                        Margin="10,0,0,0" />
                                 </Grid>
-                                <Grid Grid.Column="1">
-                                    <Label
-                                        Text="{Binding Text}"
-                                        LineBreakMode="NoWrap"
-                                        VerticalTextAlignment="Center">
-                                    </Label>
-                                </Grid>
-                            </Grid>
+                            </DataTemplate>
+                        </material:TreeView.ItemTemplate>
+                    </material:TreeView>
 
-                            <Grid RowSpacing="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="85" />
-                                    <ColumnDefinition Width="145" />
-                                    <ColumnDefinition Width="40" />
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="135" />
-                                    <ColumnDefinition Width="80" />
-                                </Grid.ColumnDefinitions>
+                    <FlexLayout
+                        Direction="Row"
+                        HeightRequest="48"
+                        AlignItems="Center"
+                        Margin="0,8,0,0"
+                        JustifyContent="SpaceBetween">
 
-                                <Label
-                                    Grid.Column="0"
-                                    Text="{Binding SendProgressText}"
-                                    IsVisible="{Binding IsSendingAuthor}"
-                                    VerticalTextAlignment="Center"
-                                    HorizontalTextAlignment="End" />
+                        <Label
+                            Text=""
+                            IsVisible="{Binding PaginatorIsVisible, Converter={StaticResource InverseBooleanConverter}}"
+                            VerticalTextAlignment="Center" />
 
-                                <Label
-                                    Grid.Column="1"
-                                    Text="{Binding SendProgressPerc, StringFormat='({0:00.00}%)'}"
-                                    IsVisible="{Binding IsSendingAuthor}"
-                                    VerticalTextAlignment="Center"
-                                    HorizontalTextAlignment="End"
-                                    Margin="10,0,10,0" />
+                        <material:Paginator
+                            x:Name="MainPaginator"
+                            CurrentPage="{Binding CurrentPage}"
+                            TotalPageCount="{Binding TotalPageCount}"
+                            IsVisible="{Binding PaginatorIsVisible}"
+                            ChangePageCommand="{Binding ChangePageCommand}"
+                            IsEnabled="{Binding Path=IsBusy, Converter={StaticResource InverseBooleanConverter}}"
+                            HorizontalOptions="Center" />
 
-                                <ProgressBar
-                                    Grid.Column="2"
-                                    Progress="{Binding SendProgress}"
-                                    ProgressColor="{StaticResource SecondaryDarkText}"
-                                    IsVisible="{Binding IsSendingAuthor}"
-                                    HorizontalOptions="Fill"
-                                    Margin="10,0,0,0" />
+                        <Label
+                            Text="{Binding TotalCountText}"
+                            VerticalTextAlignment="Center" />
 
-                                <Button
-                                    Grid.Column="2"
-                                    Text="{Binding MarkPendingText}"
-                                    IsVisible="{Binding MarkPendingIsVisible}"
-                                    IsEnabled="{Binding MarkPendingIsEnabled}"
-                                    Command="{Binding MarkAsPendingCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    Style="{StaticResource SmallButtonSecondary}"
-                                    HorizontalOptions="Fill"
-                                    Margin="10,0,0,0" />
+                    </FlexLayout>
 
-                                <ActivityIndicator
-                                    Grid.Column="3"
-                                    IsVisible="{Binding IsSendingBook}"
-                                    IsRunning="{Binding IsSendingBook}"
-                                    Color="{StaticResource SecondaryDarkText}"/>
+                </VerticalStackLayout>
 
-                                <Image
-                                    Grid.Column="3"
-                                    Source="{Binding SentIcon}"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="24"
-                                    WidthRequest="24" />
+                <VerticalStackLayout
+                    Padding="0,0"
+                    Spacing="25"
+                    Grid.Column="1">
 
-                                <Button
-                                    Grid.Column="4"
-                                    Text="Send"
-                                    IsVisible="{Binding SendIsVisible}"
-                                    IsEnabled="{Binding SendIsEnabled}"
-                                    Command="{Binding SendUsingEmailCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    Style="{StaticResource SmallButtonSuccess}"
-                                    HorizontalOptions="Fill"
-                                    Margin="10,0,0,0" />
+                    <Image
+                        x:Name="BookImage"
+                        Source="{Binding BookImageSource}"
+                        Aspect="AspectFit"
+                        IsVisible="{Binding IsSearching, Converter={StaticResource InverseBooleanConverter}}"
+                        HorizontalOptions="Center" />
 
-                                <Button
-                                    Grid.Column="5"
-                                    Text="{Binding MarkSentText}"
-                                    IsVisible="{Binding MarkSentIsVisible}"
-                                    IsEnabled="{Binding MarkSentIsEnabled}"
-                                    Command="{Binding MarkAsSentCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    Style="{StaticResource SmallButtonSecondary}"
-                                    HorizontalOptions="Fill"
-                                    Margin="10,0,0,0" />
+                    <ScrollView Orientation="Vertical" HeightRequest="115">
+                        <Label TextType="Html"
+                            x:Name="BookDescription"
+                            Text="{Binding BookDescriptionText}"
+                            Style="{StaticResource DescriptionSmall}"
+                            IsVisible="{Binding IsSearching, Converter={StaticResource InverseBooleanConverter}}"
+                            HorizontalOptions="Center" />
+                    </ScrollView>
 
-                                <Button
-                                    Grid.Column="6"
-                                    Text="{Binding DeleteText}"
-                                    IsVisible="{Binding DeleteIsVisible}"
-                                    IsEnabled="{Binding DeleteIsEnabled}"
-                                    Command="{Binding DeleteBookCommand, Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    Style="{StaticResource SmallButtonDanger}"
-                                    HorizontalOptions="Fill"
-                                    Margin="10,0,0,0" />
-                            </Grid>
+                </VerticalStackLayout>
 
-                        </FlexLayout>
-                    </DataTemplate>
-                </material:TreeView.ItemTemplate>
-            </material:TreeView>
-
-            <FlexLayout
-                Direction="Row"
-                HeightRequest="48"
-                AlignItems="Center"
-                JustifyContent="SpaceBetween">
-
-                <Label
-                    Text=""
-                    IsVisible="{Binding PaginatorIsVisible, Converter={StaticResource InverseBooleanConverter}}"
-                    VerticalTextAlignment="Center" />
-
-                <material:Paginator
-                    x:Name="MainPaginator"
-                    CurrentPage="{Binding CurrentPage}"
-                    TotalPageCount="{Binding TotalPageCount}"
-                    IsVisible="{Binding PaginatorIsVisible}"
-                    ChangePageCommand="{Binding ChangePageCommand}"
-                    IsEnabled="{Binding Path=IsBusy, Converter={StaticResource InverseBooleanConverter}}"
-                    HorizontalOptions="Center" />
-
-                <Label
-                    Text="{Binding TotalCountText}"
-                    VerticalTextAlignment="Center" />
-
-            </FlexLayout>
+            </Grid>
 
         </VerticalStackLayout>
-        
+
     </ScrollView>
 
 </ContentPage>

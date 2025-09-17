@@ -67,6 +67,38 @@ namespace Eleven.BookManager.App.ViewModels.MainPage
             }
         }
 
+        public Command ViewBookCommand => new(ViewBookCommandHandler);
+        public async void ViewBookCommandHandler(object libraryModelObj)
+        {
+            try
+            {
+                if (libraryModelObj is not LibraryViewModel libraryViewModel) return;
+                if (!libraryViewModel.IsBook) return;
+
+                var bookInfo = await CalibreService.GetBookInfo(libraryViewModel.AuthorBookId!.Value);
+
+                BookDescriptionText = string.IsNullOrEmpty(bookInfo.Description)
+                    ? bookInfo.Title : bookInfo.Description;
+
+                var bookCoverStream = bookInfo.CoverImage;
+
+                if (bookCoverStream != null && bookCoverStream.Length > 0)
+                {
+                    var memoryStream = new MemoryStream(bookCoverStream);
+                    BookImageSource = ImageSource.FromStream(() => memoryStream);
+
+                }
+                else
+                    BookImageSource = ImageSource.FromFile("cover.jpg");
+
+            }
+            catch
+            {
+                BookImageSource = ImageSource.FromFile("cover.jpg");
+                BookDescriptionText = _bookDescription;
+            }
+        }
+
         public Command SendUsingEmailCommand => new(SendUsingEmailHandler);
         public async void SendUsingEmailHandler(object libraryModelObj)
         {
@@ -87,7 +119,7 @@ namespace Eleven.BookManager.App.ViewModels.MainPage
                         {
                             model.SendProgress = (double)progress / max;
                             model.SendProgressPerc = model.SendProgress * 100;
-                            model.SendProgressText = $"Sending: {text}";
+                            model.SendProgressText = $"{model.SendProgressPerc:#.00}% - Sending: {text}";
                         }
                     );
                 },
@@ -190,6 +222,8 @@ namespace Eleven.BookManager.App.ViewModels.MainPage
             try
             {
                 IsSearching = true;
+                BookDescriptionText = _bookDescription;
+                BookImageSource = ImageSource.FromFile("cover.jpg");
 
                 var filter = new SearchLibraryFilter
                 {

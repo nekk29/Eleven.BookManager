@@ -6,6 +6,8 @@ namespace Eleven.BookManager.Business.Models
     {
         public string Title { get; set; } = null!;
         public string NormalizedTitle => Normalize(Title);
+        public string Description { get; set; } = null!;
+        public byte[] CoverImage { get; set; } = [];
         public string FilePath { get; set; } = null!;
         public IEnumerable<string> AuthorList { get; set; } = [];
         public IEnumerable<string> NormalizedAuthorList => AuthorList.Select(Normalize);

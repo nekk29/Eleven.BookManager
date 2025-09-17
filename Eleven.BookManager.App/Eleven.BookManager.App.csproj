@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.26100.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
 
@@ -36,8 +36,8 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.26100.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.26100.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
@@ -79,6 +79,7 @@
 		<MauiImage Include="Resources\Images\Alphabet\letter__symbol.png" />
 		<MauiImage Include="Resources\Images\Library\author.png" />
 		<MauiImage Include="Resources\Images\Library\book.png" />
+		<MauiImage Include="Resources\Images\Library\cover.jpg" />
 		<MauiImage Include="Resources\Images\Library\epub.png" />
 		<MauiImage Include="Resources\Images\Library\icon.png" />
 		<MauiImage Include="Resources\Images\Library\library.png" />
@@ -97,44 +98,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\Actions\checked.png" />
-	  <None Remove="Resources\Images\Actions\collapse.png" />
-	  <None Remove="Resources\Images\Actions\error.png" />
-	  <None Remove="Resources\Images\Actions\exclamation.png" />
-	  <None Remove="Resources\Images\Actions\expand.png" />
-	  <None Remove="Resources\Images\Actions\warning.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_a.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_b.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_c.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_d.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_e.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_f.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_g.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_h.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_i.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_j.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_k.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_l.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_m.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_n.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_o.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_p.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_q.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_r.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_s.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_t.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_u.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_v.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_w.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_x.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_y.png" />
-	  <None Remove="Resources\Images\Alphabet\letter_z.png" />
-	  <None Remove="Resources\Images\Alphabet\letter__symbol.png" />
-	  <None Remove="Resources\Images\Library\author.png" />
-	  <None Remove="Resources\Images\Library\book.png" />
-	  <None Remove="Resources\Images\Library\epub.png" />
-	  <None Remove="Resources\Images\Library\icon.png" />
-	  <None Remove="Resources\Images\Library\library.png" />
+	  <None Remove="Resources\Images\Library\cover.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -155,6 +119,18 @@
 	  <Compile Update="Pages\SettingsPage.xaml.cs">
 	    <DependentUpon>SettingsPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>

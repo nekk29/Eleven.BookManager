@@ -25,6 +25,7 @@ namespace Eleven.BookManager.Business
         private readonly IRepository<Author> _authorRepository = authorRepository;
         private readonly IRepository<AuthorBook> _authorBookRepository = authorBookRepository;
         private readonly IBusinessConfiguration _configuration = configuration;
+
         public async Task<ResultModel> Sync(Action<int, int> onProgress)
         {
             var result = new ResultModel();
@@ -116,6 +117,22 @@ namespace Eleven.BookManager.Business
                 await _authorRepository.DeleteAsync(deletedAuthor);
                 await _authorRepository.SaveAsync();
             }
+        }
+
+        public async Task<BookInfo> GetBookInfo(Guid authorBookId)
+        {
+            var calibreOptions = _configuration.GetCalibreOptions();
+
+            var authorBook = await _authorBookRepository.GetByAsync(b => b.Id == authorBookId);
+            if (authorBook == null) return null!;
+
+            var book = await _bookRepository.GetByAsync(b => b.Id == authorBook.BookId);
+            if (book == null) return null!;
+
+            var filePath = Path.Combine(calibreOptions.LibraryDirectory, book.FilePath);
+            var bookInfo = book == null ? null! : await _epubReader.Read(filePath);
+
+            return bookInfo ?? await _epubReader.ReadFromPath(filePath);
         }
 
         private async Task<BookInfo> GetBookInfoFromFile(ResultModel result, string filePath)

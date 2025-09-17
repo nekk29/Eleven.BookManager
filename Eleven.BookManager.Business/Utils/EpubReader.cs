@@ -58,7 +58,9 @@ namespace Eleven.BookManager.Business.Utils
                 return new EpubBook
                 {
                     Title = epubBook.Title,
-                    Authors = epubBook.AuthorList
+                    Authors = epubBook.AuthorList,
+                    Description = epubBook.Description ?? string.Empty,
+                    CoverImage = epubBook.ReadCover() ?? []
                 };
             });
         }
@@ -73,7 +75,9 @@ namespace Eleven.BookManager.Business.Utils
                 return await Task.FromResult(new EpubBook
                 {
                     Title = epubBook.Title,
-                    Authors = epubBook.Authors
+                    Authors = epubBook.Authors,
+                    Description = string.Empty,
+                    CoverImage = epubBook.CoverImage
                 });
             });
         }
@@ -88,7 +92,9 @@ namespace Eleven.BookManager.Business.Utils
                 return new EpubBook
                 {
                     Title = epubBook.Title,
-                    Authors = epubBook.AuthorList
+                    Authors = epubBook.AuthorList,
+                    Description = string.Empty,
+                    CoverImage = epubBook.CoverImage
                 };
             });
         }
@@ -103,7 +109,9 @@ namespace Eleven.BookManager.Business.Utils
                 return await Task.FromResult(new EpubBook
                 {
                     Title = epubBook.Title,
-                    Authors = epubBook.Authors
+                    Authors = epubBook.Authors,
+                    Description = string.Empty,
+                    CoverImage = epubBook.CoverImage
                 });
             });
         }
@@ -118,7 +126,9 @@ namespace Eleven.BookManager.Business.Utils
                 {
                     Title = epubResul.Title,
                     FilePath = _calibreOptions.GetRelativePath(filePath),
-                    AuthorList = epubResul.Authors ?? []
+                    AuthorList = epubResul.Authors ?? [],
+                    Description = epubResul.Description,
+                    CoverImage = epubResul.CoverImage
                 };
             }
             catch

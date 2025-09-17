@@ -156,5 +156,28 @@ namespace Eleven.BookManager.App.ViewModels.MainPage
                 RaisedOnPropertyChanged(nameof(TotalCountText));
             }
         }
+
+        private ImageSource bookImage = ImageSource.FromFile("cover.jpg");
+        public ImageSource BookImageSource
+        {
+            get { return bookImage; }
+            set
+            {
+                bookImage = value;
+                RaisedOnPropertyChanged(nameof(BookImageSource));
+            }
+        }
+
+        private static readonly string _bookDescription = $"Book Description{Environment.NewLine}(Click on Item)";
+        private string bookDescription = _bookDescription;
+        public string BookDescriptionText
+        {
+            get { return bookDescription; }
+            set
+            {
+                bookDescription = value;
+                RaisedOnPropertyChanged(nameof(BookDescriptionText));
+            }
+        }
     }
 }
